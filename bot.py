@@ -22,7 +22,23 @@ from discord.ext import commands, tasks
 from discord.ext.commands.view import StringView
 from emoji import is_emoji
 from packaging.version import Version
+from flask import Flask
+from threading import Thread
+import os
 
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Modmail Bot Online"
+
+def run_web():
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 10000))
+    )
+
+Thread(target=run_web, daemon=True).start()
 
 try:
     # noinspection PyUnresolvedReferences
@@ -183,7 +199,7 @@ class ModmailBot(commands.Bot):
         logger.info("││││ │ │││││├─┤││")
         logger.info("┴ ┴└─┘─┴┘┴ ┴┴ ┴┴┴─┘")
         logger.info("v%s", __version__)
-        logger.info("Authors: kyb3r, fourjr, Taaku18")
+        logger.info("Authors: kyb3r, fourjr, Taaku18, ThatOneKid-Anirudh")
         logger.line()
         logger.info("discord.py: v%s", discord.__version__)
         logger.line()
